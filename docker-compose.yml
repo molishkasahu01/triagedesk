@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: triagedesk
+      POSTGRES_PASSWORD: triagedesk_dev_password
+      POSTGRES_DB: triagedesk
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U triagedesk"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  app:
+    build: .
+    environment:
+      TRIAGEDESK_ENV: development
+      DATABASE_URL: postgresql+psycopg://triagedesk:triagedesk_dev_password@db:5432/triagedesk
+      JWT_SECRET_KEY: local-compose-secret-change-in-prod
+      AUTO_SEED: "true"
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy

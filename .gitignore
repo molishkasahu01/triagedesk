@@ -1,8 +1,8 @@
-.vscode/*
-!.vscode/extensions.json
-node_modules/
-backend/app/frontend/
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.db
+.env
+uploads/
+

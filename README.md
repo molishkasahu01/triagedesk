@@ -1,88 +1,41 @@
-# Full Stack FastAPI Template
+# TriageDesk
 
-[![Test Docker Compose](../../actions/workflows/test-docker-compose.yml/badge.svg)](../../actions/workflows/test-docker-compose.yml)
-[![Test Backend](../../actions/workflows/test-backend.yml/badge.svg)](../../actions/workflows/test-backend.yml)
+Original full-stack customer & IT support ticketing platform built with **FastAPI**, **SQLModel**, **PostgreSQL / SQLite**, and a **Bootstrap 5** dark/light web workspace.
 
-## Technology Stack and Features
+---
 
-- ⚡ [**FastAPI**](https://fastapi.tiangolo.com) for the Python backend API.
-  - 🧰 [SQLModel](https://sqlmodel.tiangolo.com) for the Python SQL database interactions (ORM).
-  - 🔍 [Pydantic](https://docs.pydantic.dev), used by FastAPI, for the data validation and settings management.
-  - 💾 [PostgreSQL](https://www.postgresql.org) as the SQL database.
-- 🚀 [React](https://react.dev) for the frontend.
-  - 🧩 Built into the backend application and served by FastAPI on the same domain as the API.
-  - 💃 Using TypeScript, hooks, [Vite](https://vitejs.dev), and other parts of a modern frontend stack.
-  - 🎨 [Tailwind CSS](https://tailwindcss.com) and [shadcn/ui](https://ui.shadcn.com) for the frontend components.
-  - 🤖 An automatically generated frontend client.
-  - 🧪 [Playwright](https://playwright.dev) for end-to-end testing.
-  - 🦇 Dark mode support.
-- ☁️ [FastAPI Cloud](https://fastapicloud.com) for deployment.
-- 🐋 [Docker Compose](https://www.docker.com) for local services and self-hosted deployment.
-  - 📞 [Traefik](https://traefik.io) as a reverse proxy with automatic HTTPS.
-- 🔒 Secure password hashing by default.
-- 🔑 JWT (JSON Web Token) authentication.
-- 📫 Email-based password recovery.
-- ✉️ [React Email](https://react.email) for email templates.
-- 📬 [Mailpit](https://mailpit.axllent.org) for local email testing during development.
-- ✅ Tests with [Pytest](https://pytest.org).
-- 🏭 CI (continuous integration) and CD (continuous deployment) based on GitHub Actions.
+## Core Capabilities
 
-### Dashboard Login
+* **Dashboard & SLA Health:** Live status counts, **MTTA** (Mean Time to Assign), **MTTR** (Mean Time to Resolve), stacked Priority Distribution bar, and clickable Recent Activity audit stream.
+* **Priority Queue & Bulk Operations:** Search across ticket keys, titles, descriptions, and permitted notes; filter by status, priority, group, or assignee; select multiple tickets for bulk status/priority/assignee triage.
+* **Ticket Detail Workspace:** Inline title/description editing, **Notes** (public replies + staff-only internal notes), **Attachments** (upload/download with RBAC enforcement), chronological **Audit Log**, Properties editor, and live SLA target breakdown.
+* **Role-Based Access Control (RBAC):**
+  * **`CUSTOMER`**: Creates/edits own tickets, uploads attachments, replies publicly, and cannot view internal agent notes or other users' tickets.
+  * **`AGENT`**: Triages the full queue, assigns groups/agents, runs bulk actions, posts internal notes, and generates API keys.
+  * **`ADMIN`**: Full access including user role management (`Users`), routing queues (`Groups`), and live `SLA Config` targets per priority.
+* **API Keys (`X-API-Key`) & Bearer JWT:** Supports both interactive web sessions and hashed programmatic `X-API-Key` tokens.
 
-![Dashboard login screenshot](img/login.png)
+---
 
-### Dashboard - Admin
+## Quick Start (Local Testing)
 
-![Admin dashboard screenshot](img/dashboard.png)
+```bash
+cd TriageDesk
+.venv/bin/python run_local.py
+```
 
-### Dashboard - Items
+`run_local.py` automatically detects if port `8000` is already occupied and selects the next free port (`8001+`), printing clickable UI and Swagger URLs.
 
-![Items dashboard screenshot](img/dashboard-items.png)
+### Local Demo Accounts (`DemoPass123!`)
+| Role | Email | Password |
+|---|---|---|
+| Customer | `maya@client.local` | `DemoPass123!` |
+| Customer | `rohan@client.local` | `DemoPass123!` |
+| Support Agent | `alex@triagedesk.local` | `DemoPass123!` |
+| Admin | `admin@triagedesk.local` | `DemoPass123!` |
 
-### Dashboard - Dark Mode
+### Run Tests
 
-![Dark mode dashboard screenshot](img/dashboard-dark.png)
-
-### React Email Templates
-
-![Email templates screenshot](img/react-email.png)
-
-### Mailpit - Local Email Testing
-
-![Mailpit screenshot](img/mailpit.png)
-
-### Interactive API Documentation
-
-![API docs](img/docs.png)
-
-## How to Use It
-
-Click the **Use this template** button at the top of this page to create a new repository.
-
-## Backend Development
-
-Backend docs: [backend/README.md](./backend/README.md).
-
-## Frontend Development
-
-Frontend docs: [frontend/README.md](./frontend/README.md).
-
-## Deployment
-
-FastAPI Cloud deployment: [deployment.md](./deployment.md).
-
-Self-hosted deployment with Docker Compose: [deployment-docker-compose.md](./deployment-docker-compose.md).
-
-## Development
-
-General development docs: [development.md](./development.md).
-
-This includes the local FastAPI and Vite workflow, Docker Compose services, `.env` configuration, and more.
-
-## Release Notes
-
-Check the file [release-notes.md](./release-notes.md).
-
-## License
-
-The Full Stack FastAPI Template is licensed under the terms of the MIT license.
+```bash
+.venv/bin/pytest -v
+```
